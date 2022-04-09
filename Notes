@@ -1,0 +1,132 @@
+GIT - GITHUB
+
+git init or git clone creates local repository
+Git stash ==> your changes will be put aside but no modification message will be displayed unlike by git status...
+If you have any error and strange warning type ':wq!' then hit enter (sometimes ":x" also work)
+mkdir DirectoryName ==> creates directory from terminal
+touch example.extension (notes.txt, colors.ppt, etc) ==> creates files from terminal
+ls ==> lists the content of the current directory
+cd directoryName ==> changes directory   
+clear ==> clears the terminal screen
+Ctrl + C ==> stops whatever terminal executes
+# ==> for using comment line in terminal/powershell
+git push --help | grep upstream ==> search "upstream" word in push help document
+git show <commit #> ==> show a specific commit with # number
+git diff branch_a branch_b  ==> shows differences between branches a and b
+git rm --cached <file name> ==> removew the file from stage area
+git add *.html ==> adds all html files into stage area
+touch <filename.extenson> ==> creates a new file
+
+GIT REPOSITORY CREATION
+* How to create a local repository on your computer and sending it to a central repository on GitHub:
+- Open terminal
+- git config --global user.name "pcusername"  ==> your GitHub username (install'dan sonra sadece bir defa)
+- git config --global user.email "user@gmail.com" ==> your email on your GitHub account (sadece bir defa)
+- cd /Users/yusufkucukvatan/IdeaProjects/FreeCRMTest  ==> type cd and then path of your project file (or cd+drag&drop file into terminal window)
+- git init ==> initializing your local repo
+- git add . ==> adds all file to your local repo (or - git add <filename> ==> for single file)
+- git status ==> see what you add to your local
+- git commit -m "first commit" ==> takes your files away to stage area
+- git log --oneline ==> shows all commits you did by order
+- open your GitHub account and create a new repo. That will be your remote repo and you will match it with local repo.
+- click "clone" button on GitHub page and copy the path of the remote repo and use it as below
+- git remote add origin https://github.com/YusufKucukvatan/RahulTutorial.git
+- then check remote repo whether you see your file in it or not
+
+PROJECT CLONE FROM REMOTE REPO
+- Go to any remote repo on GitHub such as Cybertek/summer2019-web-orders or any project on your GitHub repo
+- Click Clone Button and copy the path of this repo
+- open terminal
+- cd desktop
+- git clone https://github.com/RepoName/MyProject.git
+- now "MyProject" is on your desktop
+- open IntelliJ 
+- click import project
+- choose Maven Project and next and son on so forth.
+- Now project is on your IDE
+
+CREATING BRANCH
+- git branch develop ==> it creates new branch named 'develop' but still keep being on master branch
+- git checkout develop ==> it will change your branch to the develop branch
+- git checkout -b develop ==> it creates also a branch named develop and switches to it automatically
+Or we can merge two command into one below
+- git branch -a ==> lists all the branches in your repo, and also tells you what branch you're currently in
+- git add . ==> changes were added to develop branch
+- git commit -m "xxx"
+- git push origin develop ==> pushes the changes to your remote repository, so other team members can use it
+- git branch -d branchName ==> deletes the branch if you merged with master branch
+*** If you cannot change any branch, try first to pull this branch, then it will allow you to switch between these branches.
+
+CHANGING DEFAULT BRANCH ON GITHUB WEB PAGE
+- Open your repository
+- Click Settings right top of the page
+- Click Branches on left navigation bar
+- Click dropdown button, select the branch what you want to set as default
+- Click Update
+- Click "Understand, update the default brach." button on popping up window...
+
+DELETING A BRANCH ON GITHUB WEB PAGE
+- Click your repository
+- Click 'branches' button which just under the top navigation bar
+- Click 'trash' icon on right side of the branch name
+- And this branch is gone. No WARNING, NOTHING at all. If you click trash icon, it will directly delete this branch.
+
+PULLING THE LAST VERSION OF THE PROJECT TO YOUR LOCAL REPO
+- git cd /Users/yusufkucukvatan/Desktop/summer2019-web-orders ==> the path of your local repo
+- git pull origin <branchname> ==> now the most recent version of the project is on your local device
+
+HOW TO MERGE A BRANCH WITH MASTER BRANCH
+- First we have to come in the branch which we want to merge the codes in. It means generally we should come into master branch in this case.
+- git checkout master ==> now you are in master branch
+- git pull origin master ==> We are pulling recent code from master branch on GitHub
+- git merge develop -m "your message here" ==> to merge a develop branch into master branch 
+- git add . 
+- git commit -m "final commit"
+- git push origin master
+- now when other team members pull master they will see what you sent
+*** git rebase LoginFeatureBranch ==> This will merge Login with Master but closes the LoginFeatureBranch for good (completely).
+
+PUSHING CODES INTO GITHUB
+* Precondition: You have already connected your local and remote repo to each other. 
+- git status ==> optional
+- git add .
+- git status ==> optional
+- git commit -m "Your commit message here"
+- git status ==> optional
+- git push origin master
+
+CREATING PULL REQUEST
+- Create a new branch for your new User Story and check out there
+- Pull the latest code from central repo
+- Type your codes
+- add, commit, push to feature branch
+- Click Pull Request
+- Choose from which branch to which branch
+- Write notes, choose assignee and reviewer and click OK
+- In case of any problem in our codes, revier will write some note into a specific line and you can easily figure out which line is problematic. 
+- And also you can start conversation on this page as well. If the issue is solved, creater can close this chat.
+
+
+HANDLING MERGE CONFLICTS
+
+SCENARIO: You have a master branch and develop branch in your company. Somebody else wrote 10 line of codes and you pulled codes in your working branch which is develop. Then you have added another 5 lines codes. So, you have totally 15 lines in your repo. But when you are working on those codes, another guy deleted 2 lines more on master branch. Once you want to merge your codes into master branch, git will throw CONFLICT ERROR. 
+
+In this case; see in which files you have conflict and talk with the other guy (who pushed same file before you) and and/or QA lead to make a decision which is the right version. After making a decision in your team, keep as you have on your repo or delete as you see on master branch (depends on QA lead decision) and then merge it again.
+ 
+Normally git merges automatically, however git cannot solve the conflicts and asks you to solve the problem if the codes what you have on your local repo and on remote repo are not matched for the same file... 
+Git handles the conflict automatically, if conflict is about different files...
+
+- git checkout master ==> switch to master branch
+- git branch ==> see what branch you are currently in (should be the branch what you want to merge new codes into)
+- git add .
+- git commit -m "merging develop with master"
+- git merge develop ==> merges develop branch with master branch (currently we are in)
+
+WHAT IS THE BRANCHING STRATEGY IN YOUR PROJECT?
+OPTION 1:
+IN my project we have master, dev and feature branches. We do not work on the master branch, we only merge using pull request. Our smoke tests run based off master branch. We have develop branch we can push our changes. But usually we work on our branches. So when I have a story to test, I create a new branch for that story based on the develop branch. Once I am done with my story, I create pull request to merge from my feature to the develop. Then test lead approves the changes and merges to develop. Then I pick up another story and another branch is created....
+In the sprint we update the develop based on how many stories we did. We push the changes from develop tp master one every sprint. Before we change the master we make sure that our code is stable.
+
+OPTION 2:
+IN my project we have master, dev and branches for each tester. We do not work on the master branch, we only merge using pull request. Our smoke tests run based off master branch. We have develop branch we can push our changes. But usually we work on our branches. Each tester worked on a separate branch of their own. We always push to our branch, once we complete a story we create a pull request to merge to master. Next story, use the same branch again. In the sprint we update the develop based on how many stories we did. We push the changes from develop tp master one every sprint. Before we change the master we make sure that our code is stable.
+
